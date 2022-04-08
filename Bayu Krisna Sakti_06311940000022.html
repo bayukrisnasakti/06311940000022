@@ -1,0 +1,186 @@
+<html>
+
+<head>
+    <title>Bayu Krisna Sakti - 06311940000022</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const labels = [
+            'North Korea',
+            'South Korea',
+            'Vietnam',
+            'India',
+            'China',
+            'Russia',
+            'United States',
+            'Brazil',
+            'Taiwan',
+            'Egypt',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Personel Aktif',
+                backgroundColor: 'rgb(14, 102, 85, 0.5)',
+                borderColor: 'rgb(14, 102, 85 )',
+                data: [945000,
+                    627500,
+                    448500,
+                    1362500,
+                    2260000,
+                    798527,
+                    1373650,
+                    334500,
+                    257500,
+                    454250],
+                borderWidth: 1,
+                animations: {
+                    borderWidth: {
+                        duration: 1000,
+                        delay: 100,
+                        easing: 'linear',
+                        from: 1,
+                        to: 7,
+                        loop: true
+                    }
+                },
+                pointStyle: 'circle',
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBorderColor: 'rgb(14, 102, 85)',
+            }, {
+                label: 'Personil Cadangan',
+                backgroundColor: 'rgb(162, 217, 206, 0.5)',
+                borderColor: 'rgb(162, 217, 206)',
+                data: [5500000,
+                    5202250,
+                    5040000,
+                    2844750,
+                    1452500,
+                    2572500,
+                    990025,
+                    1652500,
+                    1675000,
+                    875000],
+                borderWidth: 1,
+                animations: {
+                    borderWidth: {
+                        duration: 1000,
+                        delay: 100,
+                        easing: 'linear',
+                        from: 1,
+                        to: 7,
+                        loop: true
+                    }
+                },
+                pointStyle: 'circle',
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBorderColor: 'rgb(162, 217, 206)',
+            }],
+        };
+
+        const plugin = { //memberi warna pada background canvas
+            id: 'custom_canvas_background_color',
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = 'rgb(248, 249, 249, 0.5)';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            plugins: [plugin],
+            options: {
+                animations: { //untuk animasi drop
+                    y: {
+                        easing: 'easeInOutElastic',
+                        from: (ctx) => {
+                            if (ctx.type === 'data') {
+                                if (ctx.mode === 'default' && !ctx.dropped) {
+                                    ctx.dropped = true;
+                                    return 0;
+                                }
+                            }
+                        }
+                    }
+                },
+                interaction: { //untuk menggabungkan keterangan didalam tooltip
+                    mode: 'index'
+                },
+                responsive: true,
+                plugins: {
+                    tooltip: { //untuk kustomisasi tooltip transparan
+                        displayColors: true,
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        titleColor: '#000000',
+                        titleAlign: 'center',
+                        bodyColor: '#000000',
+                        borderWidth: 1,
+                        borderColor: 'rgb(0, 0, 0)',
+                    },
+                    title: { //untuk menambahkan judul
+                        display: true,
+                        text: '10 Negara dengan Total Personil Militer Terbanyak di Dunia',
+                        font: {
+                            size: 18
+                        }
+                    },
+                    subtitle: { //untuk menambahkan sub judul
+                        display: true,
+                        text: '(Versi Global Fire Power 2017)',
+                        font: {
+                            size: 14,
+                            family: 'tahoma',
+                            weight: 'normal',
+                            style: 'italic'
+                        }
+                    },
+                    legend: { //untuk menampilkan keterangan line chart dikanan bawah
+                        display: true,
+                        position: 'bottom',
+                        align: 'end'
+                    }
+                },
+                scales: { //untuk menampilkan keterangan label x dan y
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Negara'
+                        }
+                    },
+                    y: {
+                        title: {
+                            beginAtZero: true,
+                            display: true,
+                            text: 'Total Personil'
+                        }
+                    }
+                }
+            },
+        }
+    </script>
+
+    <script>
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+
+</body>
+
+</html>
